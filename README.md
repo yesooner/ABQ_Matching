@@ -164,7 +164,7 @@ Engineering Features > Springs/Dashpots
 
 ### 输入文件
 
-演示需要一个已经建立好的 Abaqus 模型，模型中至少包含：
+下面演示的是一个已经建立好的 Abaqus 模型作为测试，模型中至少包含：
 
 - 可用于匹配的 master 节点集。
 - 可用于搜索的 slave 节点集。
@@ -230,7 +230,7 @@ Engineering Features > Springs/Dashpots
 
 ### 匹配算法限制
 
-当前匹配算法是 KDTree 或纯 Python 最近邻候选搜索配合贪心占用分配。它强调效率和工程可用性，但不是全局最优匹配算法。
+当前匹配算法是 KDTree 或 Python 最近邻候选搜索配合贪心占用分配。它强调效率和工程可用性，但不是全局最优匹配算法。
 
 可能出现的情况：
 
