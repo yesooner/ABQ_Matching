@@ -31,7 +31,7 @@ The goal is to reduce repetitive manual modeling work. Users create two assembly
 
 | Connector_Matching | Spring_Matching |
 | --- | --- |
-| ![Connector Matching](./connector.png) | ![Spring Matching](./spring.png) |
+| ![Connector Matching](./assets/readme/connector_icon.png) | ![Spring Matching](./assets/readme/spring_icon.png) |
 
 ## Environment
 
@@ -74,6 +74,12 @@ Toolbar icons for connector and spring matching should also be visible.
 The matching code first tries `scipy.spatial.cKDTree` for faster nearest-neighbor search. If SciPy is not available in the Abaqus Python environment, it falls back to pure Python distance calculations.
 
 ## Usage
+
+GUI preview:
+
+| Connector_Matching | Spring_Matching |
+| --- | --- |
+| ![Connector GUI](./assets/readme/connector_gui.png) | ![Spring GUI](./assets/readme/spring_gui.png) |
 
 ### Inputs
 
@@ -164,6 +170,10 @@ The demo requires an existing Abaqus model with:
 - a slave candidate node set;
 - required materials, sections, boundary conditions, and analysis steps.
 
+Model preview:
+
+![Model Preview](./assets/readme/model.png)
+
 ### Steps
 
 1. Open the Abaqus/CAE model.
@@ -181,6 +191,17 @@ The demo requires an existing Abaqus model with:
 - Connector objects need connector sections and behavior definitions, or Abaqus may report missing properties.
 - If the INP contains `*Conflicts`, it usually means manual Keywords Editor edits conflict with Abaqus/CAE GUI edits.
 - For complex bond-slip models, validate the connection setup on a small model before adding nonlinear behavior.
+
+### Result Preview and Videos
+
+Result preview:
+
+![Result Preview](./assets/readme/result.png)
+
+Demo videos:
+
+- [Spring_Matching demo video](./assets/readme/spring_demo.mp4)
+- [Connector_Matching demo video](./assets/readme/connector_demo.mp4)
 
 ## Limitations
 
