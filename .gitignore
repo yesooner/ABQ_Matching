@@ -1,0 +1,6 @@
+backup/
+*.html
+*.bak
+__pycache__/
+*.pyc
+*.pyo
