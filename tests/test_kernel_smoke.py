@@ -94,6 +94,19 @@ class KernelSmokeTests(unittest.TestCase):
         self.assertEqual(2, len(pairs))
         self.assertEqual(2, len({slave for _, slave, _ in pairs}))
 
+    def test_assign_from_candidates_improves_greedy_pair_that_causes_long_match(self):
+        kernel = load_kernel()
+        candidates = [
+            [(1.0, 0), (2.0, 1)],
+            [(1.1, 0), (100.0, 1)],
+        ]
+
+        pairs, failed = kernel._assign_from_candidates(candidates)
+
+        self.assertEqual([], failed)
+        self.assertEqual([(0, 1), (1, 0)], [(a, b) for a, b, _ in pairs])
+        self.assertLess(sum(distance for _, _, distance in pairs), 4.0)
+
     def test_cleanup_old_matching_keywords_removes_whole_conflicts_block(self):
         kernel = load_kernel()
         model = types.SimpleNamespace(keywordBlock=KeywordBlock([

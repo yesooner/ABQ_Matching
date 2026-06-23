@@ -15,6 +15,7 @@ except:
 DEFAULT_SPRING_STIFFNESS = 1000.0
 INITIAL_K = 5
 MAX_K = 20
+MAX_SWAP_PASSES = 3
 
 
 def _clean_text(value, field_name):
@@ -123,7 +124,49 @@ def _assign_from_candidates(candidates):
                 break
         if not assigned:
             failed.append(master_index)
+    if not failed:
+        pairs = _improve_pairs_by_pair_swaps(candidates, pairs)
     return pairs, failed
+
+
+def _improve_pairs_by_pair_swaps(candidates, pairs):
+    distance_maps = []
+    for row in candidates:
+        distance_map = {}
+        for distance, slave_index in row:
+            distance_map[slave_index] = distance
+        distance_maps.append(distance_map)
+
+    slave_to_pair_index = {}
+    for pair_index, pair in enumerate(pairs):
+        slave_to_pair_index[pair[1]] = pair_index
+
+    for pass_index in range(MAX_SWAP_PASSES):
+        improved = False
+        for i in range(len(pairs)):
+            master_i, slave_i, distance_i = pairs[i]
+            for swapped_i, slave_j in candidates[master_i]:
+                if slave_j == slave_i:
+                    continue
+                j = slave_to_pair_index.get(slave_j)
+                if j is None or j == i:
+                    continue
+                master_j, current_slave_j, distance_j = pairs[j]
+                swapped_j = distance_maps[master_j].get(slave_i)
+                if swapped_j is None:
+                    continue
+                if swapped_i + swapped_j < distance_i + distance_j:
+                    pairs[i] = (master_i, slave_j, swapped_i)
+                    pairs[j] = (master_j, slave_i, swapped_j)
+                    slave_to_pair_index[slave_i] = j
+                    slave_to_pair_index[slave_j] = i
+                    improved = True
+                    break
+            if improved:
+                break
+        if not improved:
+            break
+    return pairs
 
 
 def _match_nodes(master_nodes, slave_nodes):

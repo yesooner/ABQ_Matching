@@ -71,7 +71,7 @@ Plug-ins > ABQ_Matching > Spring_Matching
 
 Toolbar icons for connector and spring matching should also be visible.
 
-The matching code first tries `scipy.spatial.cKDTree` for faster nearest-neighbor search. If SciPy is not available in the Abaqus Python environment, it falls back to pure Python distance calculations.
+The matching code first tries `scipy.spatial.cKDTree` for faster nearest-neighbor search. If SciPy is not available in the Abaqus Python environment, it falls back to pure Python distance calculations. After the initial assignment, limited pairwise-swap local improvement passes are applied to reduce obvious greedy mismatches.
 
 ## Usage
 
@@ -230,11 +230,11 @@ The current tested environment is Abaqus 2024. Older versions may require adapta
 
 ### Matching limitations
 
-The current algorithm uses KDTree or pure Python nearest-neighbor candidate search with greedy occupancy assignment. It is efficient and practical, but it is not a global optimal matching algorithm.
+The current algorithm uses KDTree or pure Python nearest-neighbor candidate search, followed by greedy occupancy assignment and limited pairwise-swap local improvement passes. It is efficient and practical, but it is not a global optimal matching algorithm.
 
 Possible issues:
 
-- local nearest-neighbor matching may not minimize total global distance;
+- limited pairwise swaps can fix some obvious greedy mismatches, but total global distance is still not guaranteed to be minimal;
 - highly nonuniform node distributions require manual inspection;
 - long master-slave distances may be mathematically matched but physically unreasonable.
 

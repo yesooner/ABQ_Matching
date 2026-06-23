@@ -71,7 +71,7 @@ Plug-ins > ABQ_Matching > Spring_Matching
 
 工具栏中也会出现 connector 和 spring 图标。
 
-算法部分优先尝试使用 `scipy.spatial.cKDTree` 加速最近邻搜索；如果 Abaqus Python 环境没有 SciPy，会自动退回纯 Python 距离计算。
+算法部分优先尝试使用 `scipy.spatial.cKDTree` 加速最近邻搜索；如果 Abaqus Python 环境没有 SciPy，会自动退回纯 Python 距离计算。匹配完成后会进行有限轮成对交换的局部改良，用于减少明显的贪心劣解。
 
 ## 使用方法
 
@@ -230,11 +230,11 @@ Engineering Features > Springs/Dashpots
 
 ### 匹配算法限制
 
-当前匹配算法是 KDTree 或 Python 最近邻候选搜索配合贪心占用分配。它强调效率和工程可用性，但不是全局最优匹配算法。
+当前匹配算法是 KDTree 或 Python 最近邻候选搜索，先做贪心占用分配，再进行有限轮成对交换的局部改良。它强调效率和工程可用性，但不是全局最优匹配算法。
 
 可能出现的情况：
 
-- 局部最近邻结果不一定是全局总距离最小。
+- 有限轮局部交换可以修正部分明显的贪心劣解，但仍不保证全局总距离最小。
 - 节点分布非常不均匀时，匹配结果需要人工检查。
 - master/slave 节点距离过大时，虽然可以生成连接，但物理意义可能不合理。
 
