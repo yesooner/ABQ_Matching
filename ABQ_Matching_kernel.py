@@ -327,7 +327,10 @@ def _cleanup_old_matching_keywords(model):
             end = i
             while end + 1 < len(blocks):
                 next_text = blocks[end + 1].strip()
-                if next_text.startswith('*') or next_text.startswith('**'):
+                if next_text.lower().startswith('*conflicts, end of conflict block'):
+                    end += 1
+                    break
+                if next_text.startswith('*Material') or next_text.startswith('*Step'):
                     break
                 end += 1
             ranges.append((start, end))
